@@ -22,6 +22,11 @@
    }
    element jtag_uart.avalon_jtag_slave
    {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
       datum baseAddress
       {
          value = "12320";
@@ -36,8 +41,21 @@
          type = "int";
       }
    }
+   element clocks
+   {
+      datum _sortIndex
+      {
+         value = "9";
+         type = "int";
+      }
+   }
    element nios2_qsys_0.jtag_debug_module
    {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
       datum baseAddress
       {
          value = "10240";
@@ -68,16 +86,13 @@
          type = "int";
       }
    }
-   element LEDs.s1
-   {
-      datum baseAddress
-      {
-         value = "12304";
-         type = "String";
-      }
-   }
    element sdram.s1
    {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
       datum baseAddress
       {
          value = "67108864";
@@ -86,17 +101,66 @@
    }
    element onchip_memory.s1
    {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
       datum baseAddress
       {
          value = "4096";
          type = "String";
       }
    }
+   element LEDs.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "12304";
+         type = "String";
+      }
+   }
+   element writedataL.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "48";
+         type = "String";
+      }
+   }
    element switches.s1
    {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
       datum baseAddress
       {
          value = "12288";
+         type = "String";
+      }
+   }
+   element writedataR.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "32";
          type = "String";
       }
    }
@@ -116,6 +180,22 @@
          type = "int";
       }
    }
+   element writedataL
+   {
+      datum _sortIndex
+      {
+         value = "8";
+         type = "int";
+      }
+   }
+   element writedataR
+   {
+      datum _sortIndex
+      {
+         value = "7";
+         type = "int";
+      }
+   }
 }
 ]]></parameter>
  <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
@@ -131,7 +211,7 @@
  <parameter name="projectName" value="Top_ET1.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1770632010321" />
+ <parameter name="timeStamp" value="1770737217569" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
@@ -145,8 +225,23 @@
    internal="LEDs.external_connection"
    type="conduit"
    dir="end" />
- <interface name="sdram_wire" internal="sdram.wire" />
+ <interface name="sdram_wire" internal="sdram.wire" type="conduit" dir="end" />
  <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
+ <interface
+   name="writedatal_external_connection"
+   internal="writedataL.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="writedatar_external_connection"
+   internal="writedataR.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="clocks_sdram_clk"
+   internal="clocks.sdram_clk"
+   type="clock"
+   dir="start" />
  <module kind="clock_source" version="13.0" enabled="1" name="clk_0">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -211,9 +306,9 @@
   <parameter name="cpuID_stored" value="0" />
   <parameter name="breakOffset" value="32" />
   <parameter name="userDefinedSettings" value="" />
-  <parameter name="resetSlave" value="onchip_memory.s1" />
+  <parameter name="resetSlave" value="sdram.s1" />
   <parameter name="mmu_TLBMissExcSlave" value="None" />
-  <parameter name="exceptionSlave" value="onchip_memory.s1" />
+  <parameter name="exceptionSlave" value="sdram.s1" />
   <parameter name="breakSlave">nios2_qsys_0.jtag_debug_module</parameter>
   <parameter name="setting_perfCounterWidth" value="32" />
   <parameter name="setting_interruptControllerType" value="Internal" />
@@ -248,8 +343,8 @@
   <parameter name="ocimem_ramBlockType" value="Automatic" />
   <parameter name="mmu_ramBlockType" value="Automatic" />
   <parameter name="bht_ramBlockType" value="Automatic" />
-  <parameter name="instAddrWidth" value="14" />
-  <parameter name="dataAddrWidth" value="14" />
+  <parameter name="instAddrWidth" value="27" />
+  <parameter name="dataAddrWidth" value="27" />
   <parameter name="tightlyCoupledDataMaster0AddrWidth" value="1" />
   <parameter name="tightlyCoupledDataMaster1AddrWidth" value="1" />
   <parameter name="tightlyCoupledDataMaster2AddrWidth" value="1" />
@@ -258,8 +353,8 @@
   <parameter name="tightlyCoupledInstructionMaster1AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /><slave name='switches.s1' start='0x3000' end='0x3010' /><slave name='LEDs.s1' start='0x3010' end='0x3020' /><slave name='jtag_uart.avalon_jtag_slave' start='0x3020' end='0x3028' /></address-map>]]></parameter>
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='writedataR.s1' start='0x20' end='0x30' /><slave name='writedataL.s1' start='0x30' end='0x40' /><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /><slave name='sdram.s1' start='0x4000000' end='0x6000000' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='writedataR.s1' start='0x20' end='0x30' /><slave name='writedataL.s1' start='0x30' end='0x40' /><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /><slave name='switches.s1' start='0x3000' end='0x3010' /><slave name='LEDs.s1' start='0x3010' end='0x3020' /><slave name='jtag_uart.avalon_jtag_slave' start='0x3020' end='0x3028' /><slave name='sdram.s1' start='0x4000000' end='0x6000000' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone IV E" />
   <parameter name="internalIrqMaskSystemInfo" value="32" />
@@ -357,7 +452,7 @@
  <module
    kind="altera_avalon_new_sdram_controller"
    version="13.0.1.99.2"
-   enabled="0"
+   enabled="1"
    name="sdram">
   <parameter name="TAC" value="5.5" />
   <parameter name="TRCD" value="20.0" />
@@ -381,7 +476,53 @@
   <parameter name="initNOPDelay" value="0.0" />
   <parameter name="registerDataIn" value="true" />
   <parameter name="clockRate" value="50000000" />
-  <parameter name="componentName" value="qysys_test_sdram" />
+  <parameter name="componentName" value="$${FILENAME}_sdram" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.0.1.99.2"
+   enabled="1"
+   name="writedataR">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="14" />
+  <parameter name="clockRate" value="50000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.0.1.99.2"
+   enabled="1"
+   name="writedataL">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="14" />
+  <parameter name="clockRate" value="50000000" />
+ </module>
+ <module kind="altera_up_clocks" version="13.0" enabled="1" name="clocks">
+  <parameter name="board" value="DE0-Nano" />
+  <parameter name="sys_clk_freq" value="50" />
+  <parameter name="sdram_clk" value="true" />
+  <parameter name="vga_clk" value="false" />
+  <parameter name="audio_clk" value="true" />
+  <parameter name="audio_clk_freq" value="12.288" />
+  <parameter name="AUTO_CLK_IN_PRIMARY_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
  </module>
  <connection
    kind="avalon"
@@ -401,12 +542,6 @@
   <parameter name="baseAddress" value="0x2800" />
   <parameter name="defaultConnection" value="false" />
  </connection>
- <connection kind="clock" version="13.0" start="clk_0.clk" end="nios2_qsys_0.clk" />
- <connection
-   kind="clock"
-   version="13.0"
-   start="clk_0.clk"
-   end="onchip_memory.clk1" />
  <connection
    kind="reset"
    version="13.0"
@@ -445,7 +580,6 @@
    version="13.0"
    start="nios2_qsys_0.jtag_debug_module_reset"
    end="nios2_qsys_0.reset_n" />
- <connection kind="clock" version="13.0" start="clk_0.clk" end="jtag_uart.clk" />
  <connection
    kind="reset"
    version="13.0"
@@ -487,7 +621,6 @@
    start="nios2_qsys_0.jtag_debug_module_reset"
    end="LEDs.reset" />
  <connection kind="reset" version="13.0" start="clk_0.clk_reset" end="LEDs.reset" />
- <connection kind="clock" version="13.0" start="clk_0.clk" end="LEDs.clk" />
  <connection
    kind="avalon"
    version="13.0"
@@ -507,8 +640,6 @@
    version="13.0"
    start="clk_0.clk_reset"
    end="switches.reset" />
- <connection kind="clock" version="13.0" start="clk_0.clk" end="switches.clk" />
- <connection kind="clock" version="13.0" start="clk_0.clk" end="sdram.clk" />
  <connection
    kind="reset"
    version="13.0"
@@ -533,6 +664,105 @@
   <parameter name="baseAddress" value="0x04000000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="writedataL.reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="writedataL.reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="writedataR.reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="writedataR.reset" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.instruction_master"
+   end="writedataL.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0030" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.data_master"
+   end="writedataL.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0030" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.instruction_master"
+   end="writedataR.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0020" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.data_master"
+   end="writedataR.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0020" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clk_0.clk"
+   end="clocks.clk_in_primary" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="clocks.clk_in_primary_reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="clocks.clk_in_primary_reset" />
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clocks.sys_clk"
+   end="writedataL.clk" />
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clocks.sys_clk"
+   end="writedataR.clk" />
+ <connection kind="clock" version="13.0" start="clocks.sys_clk" end="sdram.clk" />
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clocks.sys_clk"
+   end="jtag_uart.clk" />
+ <connection kind="clock" version="13.0" start="clocks.sys_clk" end="LEDs.clk" />
+ <connection kind="clock" version="13.0" start="clocks.sys_clk" end="switches.clk" />
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clocks.sys_clk"
+   end="onchip_memory.clk1" />
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clocks.sys_clk"
+   end="nios2_qsys_0.clk" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>
