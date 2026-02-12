@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences>
+ <debug showDebugMenu="0" />
+ <systemtable>
+  <columns>
+   <connections preferredWidth="143" />
+   <irq preferredWidth="34" />
+   <name preferredWidth="249" />
+  </columns>
+ </systemtable>
+ <clocktable>
+  <columns>
+   <clockname preferredWidth="546" />
+   <clocksource preferredWidth="545" />
+   <frequency preferredWidth="526" />
+  </columns>
+ </clocktable>
+ <library
+   expandedCategories="Library/Memories and Memory Controllers/External Memory Interfaces/SDRAM Interfaces,Library/Memories and Memory Controllers/External Memory Interfaces,Library,Project,Library/Memories and Memory Controllers" />
+ <window width="1942" height="1102" x="-11" y="-11" />
+ <hdlexample language="VHDL" />
+ <generation synthesis="VHDL" path="_PROJECT_NAME_" />
+</preferences>
