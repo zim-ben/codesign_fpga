@@ -27,7 +27,7 @@ END Top_CUTECAR;
 
 ARCHITECTURE Structure OF Top_CUTECAR IS
 
-    component Nios_CUTECAR is
+    component qysys_test is
         port (
             clk_clk                               : in    std_logic                     := 'X';
             switches_export                       : in    std_logic_vector(7 downto 0)  := (others => 'X');
@@ -67,7 +67,7 @@ ARCHITECTURE Structure OF Top_CUTECAR IS
 BEGIN
 
     -- Qsys / Nios
-    NiosII : Nios_CUTECAR
+    NiosII : qysys_test
     port map (
         clk_clk        => CLOCK_50,
         reset_reset_n   => KEY(0),
