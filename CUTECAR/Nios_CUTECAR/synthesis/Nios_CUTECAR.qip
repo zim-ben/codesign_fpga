@@ -2,7 +2,7 @@ set_global_assignment -entity "Nios_CUTECAR" -library "Nios_CUTECAR" -name IP_TO
 set_global_assignment -entity "Nios_CUTECAR" -library "Nios_CUTECAR" -name IP_TOOL_VERSION "13.0sp1"
 set_global_assignment -entity "Nios_CUTECAR" -library "Nios_CUTECAR" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "Nios_CUTECAR" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../Nios_CUTECAR.sopcinfo"]
-set_instance_assignment -entity "Nios_CUTECAR" -library "Nios_CUTECAR" -name SLD_INFO "QSYS_NAME Nios_CUTECAR HAS_SOPCINFO 1 GENERATION_ID 1770978829"
+set_instance_assignment -entity "Nios_CUTECAR" -library "Nios_CUTECAR" -name SLD_INFO "QSYS_NAME Nios_CUTECAR HAS_SOPCINFO 1 GENERATION_ID 1770980843"
 set_global_assignment -library "Nios_CUTECAR" -name MISC_FILE [file join $::quartus(qip_path) "../../Nios_CUTECAR.cmp"]
 set_global_assignment -name SYNTHESIS_ONLY_QIP ON
 set_global_assignment -library "Nios_CUTECAR" -name MISC_FILE [file join $::quartus(qip_path) "../../Nios_CUTECAR.qsys"]
@@ -34,6 +34,7 @@ set_global_assignment -library "Nios_CUTECAR" -name SYSTEMVERILOG_FILE [file joi
 set_global_assignment -library "Nios_CUTECAR" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_master_agent.sv"]
 set_global_assignment -library "Nios_CUTECAR" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_slave_translator.sv"]
 set_global_assignment -library "Nios_CUTECAR" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_master_translator.sv"]
+set_global_assignment -library "Nios_CUTECAR" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/Nios_CUTECAR_vect_pos.v"]
 set_global_assignment -library "Nios_CUTECAR" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/Nios_CUTECAR_clocks.v"]
 set_global_assignment -library "Nios_CUTECAR" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/Nios_CUTECAR_writedataR.v"]
 set_global_assignment -library "Nios_CUTECAR" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/Nios_CUTECAR_sdram.v"]
@@ -116,6 +117,9 @@ set_global_assignment -entity "altera_merlin_slave_translator" -library "Nios_CU
 set_global_assignment -entity "altera_merlin_master_translator" -library "Nios_CUTECAR" -name IP_TOOL_NAME "altera_merlin_master_translator"
 set_global_assignment -entity "altera_merlin_master_translator" -library "Nios_CUTECAR" -name IP_TOOL_VERSION "13.0"
 set_global_assignment -entity "altera_merlin_master_translator" -library "Nios_CUTECAR" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "Nios_CUTECAR_vect_pos" -library "Nios_CUTECAR" -name IP_TOOL_NAME "altera_avalon_pio"
+set_global_assignment -entity "Nios_CUTECAR_vect_pos" -library "Nios_CUTECAR" -name IP_TOOL_VERSION "13.0.1.99.2"
+set_global_assignment -entity "Nios_CUTECAR_vect_pos" -library "Nios_CUTECAR" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -entity "Nios_CUTECAR_writedataR" -library "Nios_CUTECAR" -name IP_TOOL_NAME "altera_avalon_pio"
 set_global_assignment -entity "Nios_CUTECAR_writedataR" -library "Nios_CUTECAR" -name IP_TOOL_VERSION "13.0.1.99.2"
 set_global_assignment -entity "Nios_CUTECAR_writedataR" -library "Nios_CUTECAR" -name IP_TOOL_ENV "Qsys"

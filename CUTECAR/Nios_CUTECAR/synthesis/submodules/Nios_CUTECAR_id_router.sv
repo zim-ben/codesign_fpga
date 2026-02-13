@@ -49,21 +49,21 @@ module Nios_CUTECAR_id_router_default_decode
                DEFAULT_RD_CHANNEL = -1,
                DEFAULT_DESTID = 1 
    )
-  (output [91 - 88 : 0] default_destination_id,
-   output [15-1 : 0] default_wr_channel,
-   output [15-1 : 0] default_rd_channel,
-   output [15-1 : 0] default_src_channel
+  (output [93 - 89 : 0] default_destination_id,
+   output [17-1 : 0] default_wr_channel,
+   output [17-1 : 0] default_rd_channel,
+   output [17-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
-    DEFAULT_DESTID[91 - 88 : 0];
+    DEFAULT_DESTID[93 - 89 : 0];
 
   generate begin : default_decode
     if (DEFAULT_CHANNEL == -1) begin
       assign default_src_channel = '0;
     end
     else begin
-      assign default_src_channel = 15'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 17'b1 << DEFAULT_CHANNEL;
     end
   end
   endgenerate
@@ -74,8 +74,8 @@ module Nios_CUTECAR_id_router_default_decode
       assign default_rd_channel = '0;
     end
     else begin
-      assign default_wr_channel = 15'b1 << DEFAULT_WR_CHANNEL;
-      assign default_rd_channel = 15'b1 << DEFAULT_RD_CHANNEL;
+      assign default_wr_channel = 17'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = 17'b1 << DEFAULT_RD_CHANNEL;
     end
   end
   endgenerate
@@ -95,7 +95,7 @@ module Nios_CUTECAR_id_router
     // Command Sink (Input)
     // -------------------
     input                       sink_valid,
-    input  [102-1 : 0]    sink_data,
+    input  [104-1 : 0]    sink_data,
     input                       sink_startofpacket,
     input                       sink_endofpacket,
     output                      sink_ready,
@@ -104,8 +104,8 @@ module Nios_CUTECAR_id_router
     // Command Source (Output)
     // -------------------
     output                          src_valid,
-    output reg [102-1    : 0] src_data,
-    output reg [15-1 : 0] src_channel,
+    output reg [104-1    : 0] src_data,
+    output reg [17-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -116,12 +116,12 @@ module Nios_CUTECAR_id_router
     // -------------------------------------------------------
     localparam PKT_ADDR_H = 62;
     localparam PKT_ADDR_L = 36;
-    localparam PKT_DEST_ID_H = 91;
-    localparam PKT_DEST_ID_L = 88;
-    localparam PKT_PROTECTION_H = 95;
-    localparam PKT_PROTECTION_L = 93;
-    localparam ST_DATA_W = 102;
-    localparam ST_CHANNEL_W = 15;
+    localparam PKT_DEST_ID_H = 93;
+    localparam PKT_DEST_ID_L = 89;
+    localparam PKT_PROTECTION_H = 97;
+    localparam PKT_PROTECTION_L = 95;
+    localparam ST_DATA_W = 104;
+    localparam ST_CHANNEL_W = 17;
     localparam DECODER_TYPE = 1;
 
     localparam PKT_TRANS_WRITE = 65;
@@ -161,7 +161,7 @@ module Nios_CUTECAR_id_router
     assign src_endofpacket   = sink_endofpacket;
 
     wire [PKT_DEST_ID_W-1:0] default_destid;
-    wire [15-1 : 0] default_src_channel;
+    wire [17-1 : 0] default_src_channel;
 
 
 
@@ -187,11 +187,11 @@ module Nios_CUTECAR_id_router
 
 
         if (destid == 1 ) begin
-            src_channel = 15'b01;
+            src_channel = 17'b01;
         end
 
         if (destid == 0 ) begin
-            src_channel = 15'b10;
+            src_channel = 17'b10;
         end
 
 

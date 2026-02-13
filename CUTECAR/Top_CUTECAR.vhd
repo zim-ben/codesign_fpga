@@ -28,8 +28,8 @@ entity Top_CUTECAR is
     LTC_ADC_SCK    : out std_logic;
     LTC_ADC_SDI    : out std_logic;
     LTC_ADC_SDO    : in  std_logic;
-	 
-	 VCC3P3_PWRON_n : out std_logic
+
+    VCC3P3_PWRON_n : out std_logic
   );
 end entity;
 
@@ -57,14 +57,16 @@ architecture Structure of Top_CUTECAR is
       writedatal_external_connection_export : out   std_logic_vector(13 downto 0);
       writedatar_external_connection_export : out   std_logic_vector(13 downto 0);
 
-       pos_data0r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
-       pos_data1r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
-       pos_data2r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
-		 pos_data3r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
-       pos_data4r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
-       pos_data5r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
-       pos_data6r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X')  -- export
-        
+      pos_data0r_external_connection_export  : in    std_logic_vector(7 downto 0)  := (others => 'X');
+      pos_data1r_external_connection_export  : in    std_logic_vector(7 downto 0)  := (others => 'X');
+      pos_data2r_external_connection_export  : in    std_logic_vector(7 downto 0)  := (others => 'X');
+      pos_data3r_external_connection_export  : in    std_logic_vector(7 downto 0)  := (others => 'X');
+      pos_data4r_external_connection_export  : in    std_logic_vector(7 downto 0)  := (others => 'X');
+      pos_data5r_external_connection_export  : in    std_logic_vector(7 downto 0)  := (others => 'X');
+      pos_data6r_external_connection_export  : in    std_logic_vector(7 downto 0)  := (others => 'X');
+
+      vect_pos_external_connection_export    : in    std_logic_vector(6 downto 0)  := (others => 'X');
+      niveau_external_connection_export      : out   std_logic_vector(7 downto 0)  := (others => '0')
     );
   end component;
 
@@ -81,7 +83,7 @@ architecture Structure of Top_CUTECAR is
     );
   end component;
 
-  component capteurs_sol is
+  component capteurs_sol_seuil is
     port (
       clk         : in  std_logic;  -- max 40 MHz
       reset_n     : in  std_logic;
@@ -95,6 +97,9 @@ architecture Structure of Top_CUTECAR is
       data4r      : out std_logic_vector(7 downto 0);
       data5r      : out std_logic_vector(7 downto 0);
       data6r      : out std_logic_vector(7 downto 0);
+
+      NIVEAU      : in  std_logic_vector(7 downto 0);
+      vect_capt   : out std_logic_vector(6 downto 0);
 
       ADC_CONVSTr : out std_logic;
       ADC_SCK     : out std_logic;
@@ -113,22 +118,31 @@ architecture Structure of Top_CUTECAR is
   end component;
 
   -- Signaux internes
-  signal rst_n : std_logic;
-  signal clk40 : std_logic;
-  signal clk2k : std_logic;
+  signal rst_n    : std_logic;
+  signal clk40   : std_logic;
+  signal clk2k   : std_logic;
+
   signal led_nios : std_logic_vector(7 downto 0);
+
   signal writedataL_s, writedataR_s : std_logic_vector(13 downto 0);
 
-  signal pos_data0r_s, pos_data1r_s, pos_data2r_s,pos_data3r_s, pos_data4r_s, pos_data5r_s, pos_data6r_s : std_logic_vector(7 downto 0);
+  signal pos_data0r_s, pos_data1r_s, pos_data2r_s : std_logic_vector(7 downto 0);
+  signal pos_data3r_s, pos_data4r_s, pos_data5r_s : std_logic_vector(7 downto 0);
+  signal pos_data6r_s : std_logic_vector(7 downto 0);
 
-  signal data3_s, data4_s, data5_s, data6_s : std_logic_vector(7 downto 0);
+  signal vect_capt_s : std_logic_vector(6 downto 0);
+  signal niveau   : std_logic_vector(7 downto 0);
+
   signal data_ready_s : std_logic;
 
 begin
 
   rst_n <= KEY(0);
-  
-  
+
+  -- Power ON 3.3V rail
+  VCC3P3_PWRON_n <= '0';
+
+  -- PLL hardware : 50 MHz -> 40 MHz + 2 kHz
   u_pll : pll_2freqs
     port map (
       areset => not rst_n,
@@ -137,7 +151,9 @@ begin
       c1     => clk2k
     );
 
-  u_caps : capteurs_sol
+
+  -- Capteurs sol seuillés
+  u_caps : capteurs_sol_seuil
     port map (
       clk          => clk40,
       reset_n      => rst_n,
@@ -152,22 +168,27 @@ begin
       data5r => pos_data5r_s,
       data6r => pos_data6r_s,
 
+      NIVEAU    => niveau,
+      vect_capt => vect_capt_s,
+
       ADC_CONVSTr => LTC_ADC_CONVST,
       ADC_SCK     => LTC_ADC_SCK,
       ADC_SDIr    => LTC_ADC_SDI,
       ADC_SDO     => LTC_ADC_SDO
     );
-	 VCC3P3_PWRON_n <= '0';
-	 LED <= pos_data0r_s;
-	
 
+  -- Debug LEDs: vect_capt + data_ready
+  LED(6 downto 0) <= vect_capt_s;
+  LED(7)          <= '0';
+
+  -- Nios system
   NiosII : Nios_CUTECAR
     port map (
       clk_clk      => CLOCK_50,
       reset_reset_n => rst_n,
 
       switches_export => SW,
-      leds_export     => led_nios,
+      leds_export     => led_nios,  -- (non utilisé ici car LED = debug)
 
       sdram_wire_addr  => DRAM_ADDR,
       sdram_wire_ba    => DRAM_BA,
@@ -183,15 +204,19 @@ begin
       writedatar_external_connection_export => writedataR_s,
       clocks_sdram_clk_clk                  => DRAM_CLK,
 
-      pos_data0r_external_connection_export  => pos_data0r_s,
-      pos_data1r_external_connection_export  => pos_data1r_s,
-      pos_data2r_external_connection_export  => pos_data2r_s,
-		pos_data3r_external_connection_export  => pos_data3r_s,
-		pos_data4r_external_connection_export  => pos_data4r_s,
-		pos_data5r_external_connection_export  => pos_data5r_s,
-		pos_data6r_external_connection_export  => pos_data6r_s
+      pos_data0r_external_connection_export => pos_data0r_s,
+      pos_data1r_external_connection_export => pos_data1r_s,
+      pos_data2r_external_connection_export => pos_data2r_s,
+      pos_data3r_external_connection_export => pos_data3r_s,
+      pos_data4r_external_connection_export => pos_data4r_s,
+      pos_data5r_external_connection_export => pos_data5r_s,
+      pos_data6r_external_connection_export => pos_data6r_s,
+
+      vect_pos_external_connection_export   => vect_capt_s,
+      niveau_external_connection_export     => niveau
     );
-	 
+
+  -- PWM moteurs
   PWM0 : PWM_generation
     port map (
       clk          => CLOCK_50,
@@ -203,5 +228,5 @@ begin
       dc_motor_p_L => MTRL_P,
       dc_motor_n_L => MTRL_N
     );
-	
+
 end architecture;

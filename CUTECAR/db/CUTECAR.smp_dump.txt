@@ -43,7 +43,7 @@ DRsize.011 0 0 1 0 0 1
 DRsize.100 0 1 0 0 0 1 
 DRsize.101 1 0 0 0 0 1 
 
-State Machine - |Top_CUTECAR|capteurs_sol:u_caps|State
+State Machine - |Top_CUTECAR|capteurs_sol_seuil:u_caps|State
 Name State.S7 State.S6 State.S5 State.S4 State.S3 State.S2 State.S1 State.S0 
 State.S0 0 0 0 0 0 0 0 0 
 State.S1 0 0 0 0 0 0 1 1 

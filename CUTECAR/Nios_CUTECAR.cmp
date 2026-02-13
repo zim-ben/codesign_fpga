@@ -22,7 +22,9 @@
 			pos_data4r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
 			pos_data5r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
 			pos_data6r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
-			pos_data3r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X')  -- export
+			pos_data3r_external_connection_export : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
+			vect_pos_external_connection_export   : in    std_logic_vector(6 downto 0)  := (others => 'X'); -- export
+			niveau_external_connection_export     : out   std_logic_vector(7 downto 0)                      -- export
 		);
 	end component Nios_CUTECAR;
 

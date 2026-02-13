@@ -93,6 +93,14 @@
          type = "int";
       }
    }
+   element niveau
+   {
+      datum _sortIndex
+      {
+         value = "18";
+         type = "int";
+      }
+   }
    element onchip_memory
    {
       datum _sortIndex
@@ -157,7 +165,7 @@
          type = "int";
       }
    }
-   element pos_data5r.s1
+   element pos_data3r.s1
    {
       datum _lockedAddress
       {
@@ -166,11 +174,11 @@
       }
       datum baseAddress
       {
-         value = "128";
+         value = "96";
          type = "String";
       }
    }
-   element pos_data1r.s1
+   element writedataL.s1
    {
       datum _lockedAddress
       {
@@ -179,20 +187,7 @@
       }
       datum baseAddress
       {
-         value = "64";
-         type = "String";
-      }
-   }
-   element pos_data6r.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "144";
+         value = "32";
          type = "String";
       }
    }
@@ -206,58 +201,6 @@
       datum baseAddress
       {
          value = "48";
-         type = "String";
-      }
-   }
-   element writedataR.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "16";
-         type = "String";
-      }
-   }
-   element LEDs.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "12304";
-         type = "String";
-      }
-   }
-   element switches.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "12288";
-         type = "String";
-      }
-   }
-   element onchip_memory.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "4096";
          type = "String";
       }
    }
@@ -287,7 +230,7 @@
          type = "String";
       }
    }
-   element pos_data3r.s1
+   element writedataR.s1
    {
       datum _lockedAddress
       {
@@ -296,11 +239,11 @@
       }
       datum baseAddress
       {
-         value = "96";
+         value = "16";
          type = "String";
       }
    }
-   element writedataL.s1
+   element vect_pos.s1
    {
       datum _lockedAddress
       {
@@ -309,7 +252,98 @@
       }
       datum baseAddress
       {
-         value = "32";
+         value = "256";
+         type = "String";
+      }
+   }
+   element switches.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "12288";
+         type = "String";
+      }
+   }
+   element LEDs.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "12304";
+         type = "String";
+      }
+   }
+   element pos_data1r.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "64";
+         type = "String";
+      }
+   }
+   element niveau.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "272";
+         type = "String";
+      }
+   }
+   element pos_data6r.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "144";
+         type = "String";
+      }
+   }
+   element onchip_memory.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "4096";
+         type = "String";
+      }
+   }
+   element pos_data5r.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "128";
          type = "String";
       }
    }
@@ -344,6 +378,14 @@
       datum _sortIndex
       {
          value = "4";
+         type = "int";
+      }
+   }
+   element vect_pos
+   {
+      datum _sortIndex
+      {
+         value = "17";
          type = "int";
       }
    }
@@ -388,7 +430,7 @@
  <parameter name="projectName" value="CUTECAR.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1770971270248" />
+ <parameter name="timeStamp" value="1770980278140" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
@@ -452,6 +494,16 @@
  <interface
    name="pos_data3r_external_connection"
    internal="pos_data3r.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="vect_pos_external_connection"
+   internal="vect_pos.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="niveau_external_connection"
+   internal="niveau.external_connection"
    type="conduit"
    dir="end" />
  <module kind="clock_source" version="13.0" enabled="1" name="clk_0">
@@ -566,7 +618,7 @@
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
   <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='writedataR.s1' start='0x10' end='0x20' /><slave name='writedataL.s1' start='0x20' end='0x30' /><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /><slave name='sdram.s1' start='0x4000000' end='0x6000000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='writedataR.s1' start='0x10' end='0x20' /><slave name='writedataL.s1' start='0x20' end='0x30' /><slave name='pos_data0r.s1' start='0x30' end='0x40' /><slave name='pos_data1r.s1' start='0x40' end='0x50' /><slave name='pos_data2r.s1' start='0x50' end='0x60' /><slave name='pos_data3r.s1' start='0x60' end='0x70' /><slave name='pos_data4r.s1' start='0x70' end='0x80' /><slave name='pos_data5r.s1' start='0x80' end='0x90' /><slave name='pos_data6r.s1' start='0x90' end='0xA0' /><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /><slave name='switches.s1' start='0x3000' end='0x3010' /><slave name='LEDs.s1' start='0x3010' end='0x3020' /><slave name='jtag_uart.avalon_jtag_slave' start='0x3020' end='0x3028' /><slave name='sdram.s1' start='0x4000000' end='0x6000000' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='writedataR.s1' start='0x10' end='0x20' /><slave name='writedataL.s1' start='0x20' end='0x30' /><slave name='pos_data0r.s1' start='0x30' end='0x40' /><slave name='pos_data1r.s1' start='0x40' end='0x50' /><slave name='pos_data2r.s1' start='0x50' end='0x60' /><slave name='pos_data3r.s1' start='0x60' end='0x70' /><slave name='pos_data4r.s1' start='0x70' end='0x80' /><slave name='pos_data5r.s1' start='0x80' end='0x90' /><slave name='pos_data6r.s1' start='0x90' end='0xA0' /><slave name='vect_pos.s1' start='0x100' end='0x110' /><slave name='niveau.s1' start='0x110' end='0x120' /><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /><slave name='switches.s1' start='0x3000' end='0x3010' /><slave name='LEDs.s1' start='0x3010' end='0x3020' /><slave name='jtag_uart.avalon_jtag_slave' start='0x3020' end='0x3028' /><slave name='sdram.s1' start='0x4000000' end='0x6000000' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone IV E" />
   <parameter name="internalIrqMaskSystemInfo" value="32" />
@@ -853,6 +905,42 @@
   <parameter name="bitModifyingOutReg" value="false" />
   <parameter name="captureEdge" value="false" />
   <parameter name="direction" value="Input" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="8" />
+  <parameter name="clockRate" value="50000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.0.1.99.2"
+   enabled="1"
+   name="vect_pos">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Input" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="7" />
+  <parameter name="clockRate" value="50000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.0.1.99.2"
+   enabled="1"
+   name="niveau">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
   <parameter name="edgeType" value="RISING" />
   <parameter name="generateIRQ" value="false" />
   <parameter name="irqType" value="LEVEL" />
@@ -1267,6 +1355,46 @@
    end="pos_data3r.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0060" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection kind="clock" version="13.0" start="clocks.sys_clk" end="vect_pos.clk" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="vect_pos.reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="vect_pos.reset" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.data_master"
+   end="vect_pos.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0100" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection kind="clock" version="13.0" start="clocks.sys_clk" end="niveau.clk" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="niveau.reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="niveau.reset" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.data_master"
+   end="niveau.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0110" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
