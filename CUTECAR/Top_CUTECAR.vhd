@@ -123,22 +123,22 @@ architecture Structure of Top_CUTECAR is
     );
   end component;
 
---  component CTL_SL is
---    generic(
---      BIAS : natural := 400
---    );
---    port (
---      clk       : in  std_logic;
---      reset_n   : in  std_logic;
---      start_SL  : in  std_logic;
---      posi      : in  std_logic_vector(6 downto 0);
---      base_duty : in  std_logic_vector(13 downto 0);
---      cmdL_SL   : out std_logic_vector(13 downto 0);
---      cmdR_SL   : out std_logic_vector(13 downto 0);
---      fin_SL    : out std_logic;
---      fin_rot   : in  std_logic
---    );
---  end component;
+  component CTL_SL is
+    generic(
+      BIAS : natural := 400
+    );
+    port (
+      clk       : in  std_logic;
+      reset_n   : in  std_logic;
+      start_SL  : in  std_logic;
+      posi      : in  std_logic_vector(6 downto 0);
+      base_duty : in  std_logic_vector(13 downto 0);
+      cmdL_SL   : out std_logic_vector(13 downto 0);
+      cmdR_SL   : out std_logic_vector(13 downto 0);
+      fin_SL    : out std_logic;
+      fin_rot   : in  std_logic
+    );
+  end component;
 
   -- Internal signals
   signal rst_n    : std_logic;
@@ -206,22 +206,22 @@ begin
   LED(6 downto 0) <= vect_capt_s;
   LED(7)          <= start_sl_s(0);
 
---  u_ctl_sl : CTL_SL
---    port map (
---      clk       => CLOCK_50,
---      reset_n   => rst_n,
---      start_SL  => start_sl_s(0),
---      posi      => vect_capt_s,
---      base_duty => base_duty_s,
---      cmdL_SL   => cmdL_sl_s,
---      cmdR_SL   => cmdR_sl_s,
---      fin_SL    => fin_sl_s,
---      fin_rot   => '0'
---    );
+  u_ctl_sl : CTL_SL
+    port map (
+      clk       => CLOCK_50,
+      reset_n   => rst_n,
+      start_SL  => start_sl_s(0),
+      posi      => vect_capt_s,
+      base_duty => base_duty_s,
+      cmdL_SL   => cmdL_sl_s,
+      cmdR_SL   => cmdR_sl_s,
+      fin_SL    => fin_sl_s,
+      fin_rot   => '0'
+    );
 
   -- MUX: CTL_SL drives motors when start_sl_s=1
-  --cmdL_pwm_s <= cmdL_sl_s when start_sl_s(0) = '1' else writedataL_s;
-  --cmdR_pwm_s <= cmdR_sl_s when start_sl_s(0) = '1' else writedataR_s;
+  cmdL_pwm_s <= cmdL_sl_s when start_sl_s(0) = '1' else writedataL_s;
+  cmdR_pwm_s <= cmdR_sl_s when start_sl_s(0) = '1' else writedataR_s;
 
   PWM0 : PWM_generation
     port map (

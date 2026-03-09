@@ -1,5 +1,5 @@
 Flow report for CUTECAR
-Mon Mar 09 11:53:28 2026
+Mon Mar 09 12:49:34 2026
 Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Full Version
 
 
@@ -40,22 +40,22 @@ applicable agreement for further details.
 +---------------------------------------------------------------------------------------+
 ; Flow Summary                                                                          ;
 +------------------------------------+--------------------------------------------------+
-; Flow Status                        ; Successful - Mon Mar 09 11:53:27 2026            ;
+; Flow Status                        ; Successful - Mon Mar 09 12:49:34 2026            ;
 ; Quartus II 32-bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Full Version ;
 ; Revision Name                      ; CUTECAR                                          ;
 ; Top-level Entity Name              ; Top_CUTECAR                                      ;
 ; Family                             ; Cyclone IV E                                     ;
 ; Device                             ; EP4CE22F17C6                                     ;
 ; Timing Models                      ; Final                                            ;
-; Total logic elements               ; 3,423                                            ;
-;     Total combinational functions  ; 2,758                                            ;
-;     Dedicated logic registers      ; 2,022                                            ;
-; Total registers                    ; 2022                                             ;
-; Total pins                         ; 66                                               ;
+; Total logic elements               ; 3,430 / 22,320 ( 15 % )                          ;
+;     Total combinational functions  ; 3,090 / 22,320 ( 14 % )                          ;
+;     Dedicated logic registers      ; 2,031 / 22,320 ( 9 % )                           ;
+; Total registers                    ; 2100                                             ;
+; Total pins                         ; 66 / 154 ( 43 % )                                ;
 ; Total virtual pins                 ; 0                                                ;
-; Total memory bits                  ; 44,032                                           ;
-; Embedded Multiplier 9-bit elements ; 0                                                ;
-; Total PLLs                         ; 2                                                ;
+; Total memory bits                  ; 44,032 / 608,256 ( 7 % )                         ;
+; Embedded Multiplier 9-bit elements ; 0 / 132 ( 0 % )                                  ;
+; Total PLLs                         ; 2 / 4 ( 50 % )                                   ;
 +------------------------------------+--------------------------------------------------+
 
 
@@ -64,7 +64,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 03/09/2026 11:52:28 ;
+; Start date & time ; 03/09/2026 12:47:20 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; CUTECAR             ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ applicable agreement for further details.
 +-------------------------------------+---------------------------------------+---------------+--------------------+----------------+
 ; Assignment Name                     ; Value                                 ; Default Value ; Entity Name        ; Section Id     ;
 +-------------------------------------+---------------------------------------+---------------+--------------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 251485283240566.177305354828472       ; --            ; --                 ; --             ;
+; COMPILER_SIGNATURE_ID               ; 251485283240566.177305683910184       ; --            ; --                 ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Vhdl                                  ; --            ; --                 ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (VHDL)                ; <None>        ; --                 ; --             ;
 ; MAX_CORE_JUNCTION_TEMP              ; 85                                    ; --            ; --                 ; --             ;
@@ -94,29 +94,41 @@ applicable agreement for further details.
 +-------------------------------------+---------------------------------------+---------------+--------------------+----------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------+
-; Flow Elapsed Time                                                                                                        ;
-+----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
-+----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:01:06     ; 1.0                     ; 531 MB              ; 00:00:35                           ;
-; Total                ; 00:01:06     ; --                      ; --                  ; 00:00:35                           ;
-+----------------------+--------------+-------------------------+---------------------+------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                             ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis      ; 00:01:12     ; 1.0                     ; 552 MB              ; 00:00:39                           ;
+; Fitter                    ; 00:00:23     ; 2.2                     ; 789 MB              ; 00:00:18                           ;
+; Assembler                 ; 00:00:11     ; 1.0                     ; 402 MB              ; 00:00:02                           ;
+; TimeQuest Timing Analyzer ; 00:00:13     ; 1.0                     ; 489 MB              ; 00:00:04                           ;
+; EDA Netlist Writer        ; 00:00:14     ; 1.0                     ; 407 MB              ; 00:00:06                           ;
+; Total                     ; 00:02:13     ; --                      ; --                  ; 00:01:09                           ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
-+-----------------------------------------------------------------------------------+
-; Flow OS Summary                                                                   ;
-+----------------------+------------------+-----------+------------+----------------+
-; Module Name          ; Machine Hostname ; OS Name   ; OS Version ; Processor type ;
-+----------------------+------------------+-----------+------------+----------------+
-; Analysis & Synthesis ; a-201580         ; Windows 7 ; 6.2        ; x86_64         ;
-+----------------------+------------------+-----------+------------+----------------+
++----------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                        ;
++---------------------------+------------------+-----------+------------+----------------+
+; Module Name               ; Machine Hostname ; OS Name   ; OS Version ; Processor type ;
++---------------------------+------------------+-----------+------------+----------------+
+; Analysis & Synthesis      ; a-201580         ; Windows 7 ; 6.2        ; x86_64         ;
+; Fitter                    ; a-201580         ; Windows 7 ; 6.2        ; x86_64         ;
+; Assembler                 ; a-201580         ; Windows 7 ; 6.2        ; x86_64         ;
+; TimeQuest Timing Analyzer ; a-201580         ; Windows 7 ; 6.2        ; x86_64         ;
+; EDA Netlist Writer        ; a-201580         ; Windows 7 ; 6.2        ; x86_64         ;
++---------------------------+------------------+-----------+------------+----------------+
 
 
 ------------
 ; Flow Log ;
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off CUTECAR -c CUTECAR
+quartus_fit --read_settings_files=off --write_settings_files=off CUTECAR -c CUTECAR
+quartus_asm --read_settings_files=off --write_settings_files=off CUTECAR -c CUTECAR
+quartus_sta CUTECAR -c CUTECAR
+quartus_eda --read_settings_files=off --write_settings_files=off CUTECAR -c CUTECAR
 
 
 
