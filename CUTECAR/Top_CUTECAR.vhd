@@ -66,7 +66,13 @@ architecture Structure of Top_CUTECAR is
       pos_data6r_external_connection_export  : in    std_logic_vector(7 downto 0)  := (others => 'X');
 
       vect_pos_external_connection_export    : in    std_logic_vector(6 downto 0)  := (others => 'X');
-      niveau_external_connection_export      : out   std_logic_vector(7 downto 0)  := (others => '0')
+      niveau_external_connection_export      : out   std_logic_vector(7 downto 0)  := (others => '0');
+
+      start_sl_external_connection_export   : out   std_logic_vector(7 downto 0);                     -- export
+      base_duty_external_connection_export   : out   std_logic_vector(13 downto 0);
+
+      -- ✅ ONLY RIGHT CMD debug (PIO input in Qsys)
+      cmdr_sl_external_connection_export     : in    std_logic_vector(13 downto 0) := (others => 'X')
     );
   end component;
 
@@ -85,9 +91,9 @@ architecture Structure of Top_CUTECAR is
 
   component capteurs_sol_seuil is
     port (
-      clk         : in  std_logic;  -- max 40 MHz
+      clk         : in  std_logic;
       reset_n     : in  std_logic;
-      data_capture: in  std_logic;  -- rising edge trigger
+      data_capture: in  std_logic;
       data_readyr : out std_logic;
 
       data0r      : out std_logic_vector(7 downto 0);
@@ -112,12 +118,29 @@ architecture Structure of Top_CUTECAR is
     port (
       areset : in  std_logic := '0';
       inclk0 : in  std_logic := '0';
-      c0     : out std_logic;  -- 40 MHz
-      c1     : out std_logic   -- 2 kHz
+      c0     : out std_logic;
+      c1     : out std_logic
     );
   end component;
 
-  -- Signaux internes
+--  component CTL_SL is
+--    generic(
+--      BIAS : natural := 400
+--    );
+--    port (
+--      clk       : in  std_logic;
+--      reset_n   : in  std_logic;
+--      start_SL  : in  std_logic;
+--      posi      : in  std_logic_vector(6 downto 0);
+--      base_duty : in  std_logic_vector(13 downto 0);
+--      cmdL_SL   : out std_logic_vector(13 downto 0);
+--      cmdR_SL   : out std_logic_vector(13 downto 0);
+--      fin_SL    : out std_logic;
+--      fin_rot   : in  std_logic
+--    );
+--  end component;
+
+  -- Internal signals
   signal rst_n    : std_logic;
   signal clk40   : std_logic;
   signal clk2k   : std_logic;
@@ -125,24 +148,28 @@ architecture Structure of Top_CUTECAR is
   signal led_nios : std_logic_vector(7 downto 0);
 
   signal writedataL_s, writedataR_s : std_logic_vector(13 downto 0);
+  signal niveau_s : std_logic_vector(7 downto 0);
+
+  signal start_sl_s  : std_logic_vector(7 downto 0);
+  signal base_duty_s : std_logic_vector(13 downto 0);
 
   signal pos_data0r_s, pos_data1r_s, pos_data2r_s : std_logic_vector(7 downto 0);
   signal pos_data3r_s, pos_data4r_s, pos_data5r_s : std_logic_vector(7 downto 0);
   signal pos_data6r_s : std_logic_vector(7 downto 0);
 
-  signal vect_capt_s : std_logic_vector(6 downto 0);
-  signal niveau   : std_logic_vector(7 downto 0);
-
+  signal vect_capt_s  : std_logic_vector(6 downto 0);
   signal data_ready_s : std_logic;
 
-begin
+  signal cmdL_sl_s, cmdR_sl_s : std_logic_vector(13 downto 0);
+  signal fin_sl_s             : std_logic;
 
+  signal cmdL_pwm_s, cmdR_pwm_s : std_logic_vector(13 downto 0);
+
+begin
   rst_n <= KEY(0);
 
-  -- Power ON 3.3V rail
   VCC3P3_PWRON_n <= '0';
 
-  -- PLL hardware : 50 MHz -> 40 MHz + 2 kHz
   u_pll : pll_2freqs
     port map (
       areset => not rst_n,
@@ -151,8 +178,6 @@ begin
       c1     => clk2k
     );
 
-
-  -- Capteurs sol seuillés
   u_caps : capteurs_sol_seuil
     port map (
       clk          => clk40,
@@ -168,7 +193,7 @@ begin
       data5r => pos_data5r_s,
       data6r => pos_data6r_s,
 
-      NIVEAU    => niveau,
+      NIVEAU    => niveau_s,
       vect_capt => vect_capt_s,
 
       ADC_CONVSTr => LTC_ADC_CONVST,
@@ -177,18 +202,46 @@ begin
       ADC_SDO     => LTC_ADC_SDO
     );
 
-  -- Debug LEDs: vect_capt + data_ready
+  -- LEDs debug
   LED(6 downto 0) <= vect_capt_s;
-  LED(7)          <= '0';
+  LED(7)          <= start_sl_s(0);
 
-  -- Nios system
+--  u_ctl_sl : CTL_SL
+--    port map (
+--      clk       => CLOCK_50,
+--      reset_n   => rst_n,
+--      start_SL  => start_sl_s(0),
+--      posi      => vect_capt_s,
+--      base_duty => base_duty_s,
+--      cmdL_SL   => cmdL_sl_s,
+--      cmdR_SL   => cmdR_sl_s,
+--      fin_SL    => fin_sl_s,
+--      fin_rot   => '0'
+--    );
+
+  -- MUX: CTL_SL drives motors when start_sl_s=1
+  --cmdL_pwm_s <= cmdL_sl_s when start_sl_s(0) = '1' else writedataL_s;
+  --cmdR_pwm_s <= cmdR_sl_s when start_sl_s(0) = '1' else writedataR_s;
+
+  PWM0 : PWM_generation
+    port map (
+      clk          => CLOCK_50,
+      reset_n      => rst_n,
+      s_writedataR => cmdR_pwm_s,
+      s_writedataL => cmdL_pwm_s,
+      dc_motor_p_R => MTRR_P,
+      dc_motor_n_R => MTRR_N,
+      dc_motor_p_L => MTRL_P,
+      dc_motor_n_L => MTRL_N
+    );
+
   NiosII : Nios_CUTECAR
     port map (
       clk_clk      => CLOCK_50,
       reset_reset_n => rst_n,
 
       switches_export => SW,
-      leds_export     => led_nios,  -- (non utilisé ici car LED = debug)
+      leds_export     => led_nios,
 
       sdram_wire_addr  => DRAM_ADDR,
       sdram_wire_ba    => DRAM_BA,
@@ -213,20 +266,13 @@ begin
       pos_data6r_external_connection_export => pos_data6r_s,
 
       vect_pos_external_connection_export   => vect_capt_s,
-      niveau_external_connection_export     => niveau
-    );
+      niveau_external_connection_export     => niveau_s,
 
-  -- PWM moteurs
-  PWM0 : PWM_generation
-    port map (
-      clk          => CLOCK_50,
-      reset_n      => rst_n,
-      s_writedataR => writedataR_s,
-      s_writedataL => writedataL_s,
-      dc_motor_p_R => MTRR_P,
-      dc_motor_n_R => MTRR_N,
-      dc_motor_p_L => MTRL_P,
-      dc_motor_n_L => MTRL_N
+      start_sl_external_connection_export   => start_sl_s,
+      base_duty_external_connection_export  => base_duty_s,
+
+      -- ✅ connect ONLY cmdR from CTL_SL to Nios debug PIO input
+      cmdr_sl_external_connection_export    => cmdR_sl_s
     );
 
 end architecture;

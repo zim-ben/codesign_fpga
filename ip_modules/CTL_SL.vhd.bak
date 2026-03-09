@@ -1,0 +1,132 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity CTL_SL is
+  generic(
+    BASE_DUTY : natural := 1500; -- 0..4095 (12 bits). Typical max around 3125 for 16kHz in your PWM block.
+    DELTA     : natural := 400   -- turning strength
+  );
+  port (
+    clk      : in  std_logic;
+    reset_n  : in  std_logic;
+
+    start_SL : in  std_logic;                  -- start line following
+    pos      : in  std_logic_vector(6 downto 0); -- vect_capt_s
+
+    cmdL_SL  : out std_logic_vector(13 downto 0);
+    cmdR_SL  : out std_logic_vector(13 downto 0);
+
+    fin_SL   : out std_logic;
+    fin_rot  : out std_logic
+  );
+end entity;
+
+architecture rtl of CTL_SL is
+
+  type state_t is (IDLE, RUN, FIN);
+  signal st : state_t := IDLE;
+
+  signal cmdL, cmdR : std_logic_vector(13 downto 0) := (others => '0');
+
+  -- clamp helper for 12-bit duty
+  function clamp12(x : integer) return unsigned is
+    variable y : integer := x;
+  begin
+    if y < 0 then y := 0; end if;
+    if y > 4095 then y := 4095; end if;
+    return to_unsigned(y, 12);
+  end function;
+
+  function pack_cmd(go_i : std_logic; dir_fwd0_back1 : std_logic; duty12 : unsigned(11 downto 0))
+    return std_logic_vector is
+    variable v : std_logic_vector(13 downto 0) := (others => '0');
+  begin
+    v(13) := go_i;
+    v(12) := dir_fwd0_back1;  -- 0 = forward
+    v(11 downto 0) := std_logic_vector(duty12);
+    return v;
+  end function;
+
+begin
+  cmdL_SL <= cmdL;
+  cmdR_SL <= cmdR;
+
+  fin_rot <= '0'; -- not used
+
+  process(clk, reset_n)
+    variable dutyL_i, dutyR_i : integer;
+    variable left_on, right_on, any_on : boolean;
+  begin
+    if reset_n = '0' then
+      st    <= IDLE;
+      fin_SL <= '0';
+      cmdL  <= (others => '0');
+      cmdR  <= (others => '0');
+
+    elsif rising_edge(clk) then
+
+      -- Decode sensors
+      any_on   := (pos /= "0000000");
+      left_on  := (pos(6) = '1') or (pos(5) = '1') or (pos(4) = '1');
+      right_on := (pos(2) = '1') or (pos(1) = '1') or (pos(0) = '1');
+
+      case st is
+        when IDLE =>
+          fin_SL <= '0';
+          cmdL   <= pack_cmd('0','0', to_unsigned(0,12));
+          cmdR   <= pack_cmd('0','0', to_unsigned(0,12));
+
+          if start_SL = '1' then
+            st <= RUN;
+          end if;
+
+        when RUN =>
+          if any_on = false then
+            -- line lost => stop immediately
+            cmdL   <= pack_cmd('0','0', to_unsigned(0,12));
+            cmdR   <= pack_cmd('0','0', to_unsigned(0,12));
+            fin_SL <= '1';
+            st     <= FIN;
+
+          else
+            -- default straight
+            dutyL_i := integer(BASE_DUTY);
+            dutyR_i := integer(BASE_DUTY);
+
+            -- turn decision
+            if left_on and (not right_on) then
+              -- line on left => turn left: slow left, speed right
+              dutyL_i := integer(BASE_DUTY) - integer(DELTA);
+              dutyR_i := integer(BASE_DUTY) + integer(DELTA);
+            elsif right_on and (not left_on) then
+              -- line on right => turn right: speed left, slow right
+              dutyL_i := integer(BASE_DUTY) + integer(DELTA);
+              dutyR_i := integer(BASE_DUTY) - integer(DELTA);
+            else
+              -- center or mixed => straight
+              dutyL_i := integer(BASE_DUTY);
+              dutyR_i := integer(BASE_DUTY);
+            end if;
+
+            cmdL <= pack_cmd('1','0', clamp12(dutyL_i)); -- go=1, forward=0
+            cmdR <= pack_cmd('1','0', clamp12(dutyR_i));
+            fin_SL <= '0';
+          end if;
+
+        when FIN =>
+          -- keep stopped + fin=1 until start released
+          cmdL   <= pack_cmd('0','0', to_unsigned(0,12));
+          cmdR   <= pack_cmd('0','0', to_unsigned(0,12));
+          fin_SL <= '1';
+
+          if start_SL = '0' then
+            st <= IDLE;
+            fin_SL <= '0';
+          end if;
+      end case;
+
+    end if;
+  end process;
+
+end architecture;

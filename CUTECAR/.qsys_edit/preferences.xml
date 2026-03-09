@@ -5,17 +5,19 @@
   <columns>
    <connections preferredWidth="175" />
    <irq preferredWidth="34" />
+   <export preferredWidth="223" />
   </columns>
  </systemtable>
  <clocktable>
   <columns>
-   <clockname preferredWidth="546" />
-   <clocksource preferredWidth="545" />
-   <frequency preferredWidth="526" />
+   <clockname preferredWidth="548" />
+   <clocksource preferredWidth="547" />
+   <frequency preferredWidth="529" />
   </columns>
  </clocktable>
- <window width="1600" height="900" x="0" y="0" />
+ <window width="1920" height="1080" x="0" y="0" />
  <library
-   expandedCategories="Library/Peripherals,Project,Library,Library/Peripherals/Microcontroller Peripherals" />
+   expandedCategories="Library/Peripherals/Microcontroller Peripherals,Library,Library/Peripherals,Project" />
  <hdlexample language="VHDL" />
+ <generation synthesis="VHDL" />
 </preferences>

@@ -29,7 +29,7 @@
 // Generation parameters:
 //   output_name:         Nios_CUTECAR_rsp_xbar_demux_005
 //   ST_DATA_W:           104
-//   ST_CHANNEL_W:        17
+//   ST_CHANNEL_W:        19
 //   NUM_OUTPUTS:         1
 //   VALID_WIDTH:         1
 // ------------------------------------------
@@ -47,7 +47,7 @@ module Nios_CUTECAR_rsp_xbar_demux_005
     // -------------------
     input  [1-1      : 0]   sink_valid,
     input  [104-1    : 0]   sink_data, // ST_DATA_W=104
-    input  [17-1 : 0]   sink_channel, // ST_CHANNEL_W=17
+    input  [19-1 : 0]   sink_channel, // ST_CHANNEL_W=19
     input                         sink_startofpacket,
     input                         sink_endofpacket,
     output                        sink_ready,
@@ -57,7 +57,7 @@ module Nios_CUTECAR_rsp_xbar_demux_005
     // -------------------
     output reg                      src0_valid,
     output reg [104-1    : 0] src0_data, // ST_DATA_W=104
-    output reg [17-1 : 0] src0_channel, // ST_CHANNEL_W=17
+    output reg [19-1 : 0] src0_channel, // ST_CHANNEL_W=19
     output reg                      src0_startofpacket,
     output reg                      src0_endofpacket,
     input                           src0_ready,
@@ -94,7 +94,7 @@ module Nios_CUTECAR_rsp_xbar_demux_005
     // -------------------
     assign ready_vector[0] = src0_ready;
 
-    assign sink_ready = |(sink_channel & {{16{1'b0}},{ready_vector[NUM_OUTPUTS - 1 : 0]}});
+    assign sink_ready = |(sink_channel & {{18{1'b0}},{ready_vector[NUM_OUTPUTS - 1 : 0]}});
 
 endmodule
 

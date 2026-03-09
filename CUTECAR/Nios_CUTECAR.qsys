@@ -38,6 +38,14 @@
          type = "String";
       }
    }
+   element base_duty
+   {
+      datum _sortIndex
+      {
+         value = "20";
+         type = "int";
+      }
+   }
    element clk_0
    {
       datum _sortIndex
@@ -57,6 +65,14 @@
       {
          value = "1";
          type = "boolean";
+      }
+   }
+   element cmdR_SL
+   {
+      datum _sortIndex
+      {
+         value = "21";
+         type = "int";
       }
    }
    element nios2_qsys_0.jtag_debug_module
@@ -165,7 +181,7 @@
          type = "int";
       }
    }
-   element pos_data3r.s1
+   element start_SL.s1
    {
       datum _lockedAddress
       {
@@ -174,98 +190,7 @@
       }
       datum baseAddress
       {
-         value = "96";
-         type = "String";
-      }
-   }
-   element writedataL.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "32";
-         type = "String";
-      }
-   }
-   element pos_data0r.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "48";
-         type = "String";
-      }
-   }
-   element pos_data2r.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "80";
-         type = "String";
-      }
-   }
-   element pos_data4r.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "112";
-         type = "String";
-      }
-   }
-   element writedataR.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "16";
-         type = "String";
-      }
-   }
-   element vect_pos.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "256";
-         type = "String";
-      }
-   }
-   element switches.s1
-   {
-      datum _lockedAddress
-      {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "12288";
+         value = "288";
          type = "String";
       }
    }
@@ -282,7 +207,7 @@
          type = "String";
       }
    }
-   element pos_data1r.s1
+   element base_duty.s1
    {
       datum _lockedAddress
       {
@@ -291,11 +216,11 @@
       }
       datum baseAddress
       {
-         value = "64";
+         value = "304";
          type = "String";
       }
    }
-   element niveau.s1
+   element onchip_memory.s1
    {
       datum _lockedAddress
       {
@@ -304,7 +229,7 @@
       }
       datum baseAddress
       {
-         value = "272";
+         value = "4096";
          type = "String";
       }
    }
@@ -321,7 +246,7 @@
          type = "String";
       }
    }
-   element onchip_memory.s1
+   element writedataR.s1
    {
       datum _lockedAddress
       {
@@ -330,7 +255,7 @@
       }
       datum baseAddress
       {
-         value = "4096";
+         value = "16";
          type = "String";
       }
    }
@@ -360,6 +285,136 @@
          type = "String";
       }
    }
+   element pos_data1r.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "64";
+         type = "String";
+      }
+   }
+   element pos_data0r.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "48";
+         type = "String";
+      }
+   }
+   element vect_pos.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "256";
+         type = "String";
+      }
+   }
+   element pos_data4r.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "112";
+         type = "String";
+      }
+   }
+   element cmdR_SL.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "320";
+         type = "String";
+      }
+   }
+   element pos_data2r.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "80";
+         type = "String";
+      }
+   }
+   element switches.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "12288";
+         type = "String";
+      }
+   }
+   element pos_data3r.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "96";
+         type = "String";
+      }
+   }
+   element niveau.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "272";
+         type = "String";
+      }
+   }
+   element writedataL.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "32";
+         type = "String";
+      }
+   }
    element sdram
    {
       datum _sortIndex
@@ -371,6 +426,14 @@
       {
          value = "1";
          type = "boolean";
+      }
+   }
+   element start_SL
+   {
+      datum _sortIndex
+      {
+         value = "19";
+         type = "int";
       }
    }
    element switches
@@ -430,7 +493,7 @@
  <parameter name="projectName" value="CUTECAR.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1770980278140" />
+ <parameter name="timeStamp" value="1773045227955" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
@@ -504,6 +567,21 @@
  <interface
    name="niveau_external_connection"
    internal="niveau.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="start_sl_external_connection"
+   internal="start_SL.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="base_duty_external_connection"
+   internal="base_duty.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="cmdr_sl_external_connection"
+   internal="cmdR_SL.external_connection"
    type="conduit"
    dir="end" />
  <module kind="clock_source" version="13.0" enabled="1" name="clk_0">
@@ -617,8 +695,8 @@
   <parameter name="tightlyCoupledInstructionMaster1AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='writedataR.s1' start='0x10' end='0x20' /><slave name='writedataL.s1' start='0x20' end='0x30' /><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /><slave name='sdram.s1' start='0x4000000' end='0x6000000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='writedataR.s1' start='0x10' end='0x20' /><slave name='writedataL.s1' start='0x20' end='0x30' /><slave name='pos_data0r.s1' start='0x30' end='0x40' /><slave name='pos_data1r.s1' start='0x40' end='0x50' /><slave name='pos_data2r.s1' start='0x50' end='0x60' /><slave name='pos_data3r.s1' start='0x60' end='0x70' /><slave name='pos_data4r.s1' start='0x70' end='0x80' /><slave name='pos_data5r.s1' start='0x80' end='0x90' /><slave name='pos_data6r.s1' start='0x90' end='0xA0' /><slave name='vect_pos.s1' start='0x100' end='0x110' /><slave name='niveau.s1' start='0x110' end='0x120' /><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /><slave name='switches.s1' start='0x3000' end='0x3010' /><slave name='LEDs.s1' start='0x3010' end='0x3020' /><slave name='jtag_uart.avalon_jtag_slave' start='0x3020' end='0x3028' /><slave name='sdram.s1' start='0x4000000' end='0x6000000' /></address-map>]]></parameter>
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /><slave name='sdram.s1' start='0x4000000' end='0x6000000' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='writedataR.s1' start='0x10' end='0x20' /><slave name='writedataL.s1' start='0x20' end='0x30' /><slave name='pos_data0r.s1' start='0x30' end='0x40' /><slave name='pos_data1r.s1' start='0x40' end='0x50' /><slave name='pos_data2r.s1' start='0x50' end='0x60' /><slave name='pos_data3r.s1' start='0x60' end='0x70' /><slave name='pos_data4r.s1' start='0x70' end='0x80' /><slave name='pos_data5r.s1' start='0x80' end='0x90' /><slave name='pos_data6r.s1' start='0x90' end='0xA0' /><slave name='vect_pos.s1' start='0x100' end='0x110' /><slave name='niveau.s1' start='0x110' end='0x120' /><slave name='start_SL.s1' start='0x120' end='0x130' /><slave name='base_duty.s1' start='0x130' end='0x140' /><slave name='cmdR_SL.s1' start='0x140' end='0x150' /><slave name='onchip_memory.s1' start='0x1000' end='0x2000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x2800' end='0x3000' /><slave name='switches.s1' start='0x3000' end='0x3010' /><slave name='LEDs.s1' start='0x3010' end='0x3020' /><slave name='jtag_uart.avalon_jtag_slave' start='0x3020' end='0x3028' /><slave name='sdram.s1' start='0x4000000' end='0x6000000' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone IV E" />
   <parameter name="internalIrqMaskSystemInfo" value="32" />
@@ -950,6 +1028,60 @@
   <parameter name="width" value="8" />
   <parameter name="clockRate" value="50000000" />
  </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.0.1.99.2"
+   enabled="1"
+   name="start_SL">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="8" />
+  <parameter name="clockRate" value="50000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.0.1.99.2"
+   enabled="1"
+   name="base_duty">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="14" />
+  <parameter name="clockRate" value="50000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.0.1.99.2"
+   enabled="1"
+   name="cmdR_SL">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Input" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="14" />
+  <parameter name="clockRate" value="50000000" />
+ </module>
  <connection
    kind="avalon"
    version="13.0"
@@ -1113,28 +1245,10 @@
  <connection
    kind="avalon"
    version="13.0"
-   start="nios2_qsys_0.instruction_master"
-   end="writedataL.s1">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0020" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
-   kind="avalon"
-   version="13.0"
    start="nios2_qsys_0.data_master"
    end="writedataL.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0020" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
-   kind="avalon"
-   version="13.0"
-   start="nios2_qsys_0.instruction_master"
-   end="writedataR.s1">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0010" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -1397,6 +1511,70 @@
   <parameter name="baseAddress" value="0x0110" />
   <parameter name="defaultConnection" value="false" />
  </connection>
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.data_master"
+   end="start_SL.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0120" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="start_SL.reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="start_SL.reset" />
+ <connection kind="clock" version="13.0" start="clocks.sys_clk" end="start_SL.clk" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.data_master"
+   end="base_duty.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0130" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="base_duty.reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="base_duty.reset" />
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clocks.sys_clk"
+   end="base_duty.clk" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.data_master"
+   end="cmdR_SL.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0140" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.0"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="cmdR_SL.reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="cmdR_SL.reset" />
+ <connection kind="clock" version="13.0" start="clocks.sys_clk" end="cmdR_SL.clk" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>
