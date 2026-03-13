@@ -18,7 +18,7 @@ int main(void)
 {
 	/* Auto init */
 	NIVEAU    = 0x6C;          // 108
-	BASE_DUTY = 0x076C;        // duty only (1900 decimal)
+	BASE_DUTY = 0x08af;        // duty only (1900 decimal)
 	START_SL  = 0;             // stopped by default
 
 	printf("Init: NIVEAU=0x6C, BASE_DUTY=0x76C\n");

@@ -11,7 +11,7 @@
             <memory_start_offset>0</memory_start_offset>
         </elf_section>
         <elf_section name="data">
-            <memory_device>onchip_memory/s1</memory_device>
+            <memory_device>sdram/s1</memory_device>
             <memory_start_offset>0</memory_start_offset>
         </elf_section>
         <terminal JTAGHubInstanceID="0">jtag_uart</terminal>
