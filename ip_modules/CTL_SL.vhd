@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 
 entity CTL_SL is
   generic(
-    BIAS : natural := 30  -- correction strength (duty units per error step)
+    BIAS : natural := 3  -- correction strength (duty units per error step)
   );
   port (
     clk       : in  std_logic;
@@ -54,18 +54,18 @@ architecture rtl of CTL_SL is
     variable cnt   : integer := 0;
   begin
     -- v(6)=left ... v(0)=right
-    if v(6)='1' then sum_w := sum_w + (-2); cnt := cnt + 1; end if;
-    if v(5)='1' then sum_w := sum_w + (-1); cnt := cnt + 1; end if;
+    if v(6)='1' then sum_w := sum_w + (-3); cnt := cnt + 1; end if;
+    if v(5)='1' then sum_w := sum_w + (-2); cnt := cnt + 1; end if;
     if v(4)='1' then sum_w := sum_w + (-1); cnt := cnt + 1; end if;
     if v(3)='1' then sum_w := sum_w + ( 0); cnt := cnt + 1; end if;
     if v(2)='1' then sum_w := sum_w + ( 1); cnt := cnt + 1; end if;
-    if v(1)='1' then sum_w := sum_w + ( 1); cnt := cnt + 1; end if;
-    if v(0)='1' then sum_w := sum_w + ( 2); cnt := cnt + 1; end if;
+    if v(1)='1' then sum_w := sum_w + ( 2); cnt := cnt + 1; end if;
+    if v(0)='1' then sum_w := sum_w + ( 3); cnt := cnt + 1; end if;
 
     if cnt = 0 then
       return 0;
     else
-      return sum_w / cnt; -- integer division (round toward 0)
+      return sum_w; --/ cnt; -- integer division (round toward 0)
     end if;
   end function;
 

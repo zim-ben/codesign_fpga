@@ -69,10 +69,7 @@ architecture Structure of Top_CUTECAR is
       niveau_external_connection_export      : out   std_logic_vector(7 downto 0)  := (others => '0');
 
       start_sl_external_connection_export   : out   std_logic_vector(7 downto 0);                     -- export
-      base_duty_external_connection_export   : out   std_logic_vector(13 downto 0);
-
-      -- ✅ ONLY RIGHT CMD debug (PIO input in Qsys)
-      cmdr_sl_external_connection_export     : in    std_logic_vector(13 downto 0) := (others => 'X')
+      base_duty_external_connection_export   : out   std_logic_vector(13 downto 0)
     );
   end component;
 
@@ -269,10 +266,7 @@ begin
       niveau_external_connection_export     => niveau_s,
 
       start_sl_external_connection_export   => start_sl_s,
-      base_duty_external_connection_export  => base_duty_s,
-
-      -- ✅ connect ONLY cmdR from CTL_SL to Nios debug PIO input
-      cmdr_sl_external_connection_export    => cmdR_sl_s
+      base_duty_external_connection_export  => base_duty_s
     );
 
 end architecture;
