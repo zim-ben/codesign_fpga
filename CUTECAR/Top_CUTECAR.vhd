@@ -68,8 +68,9 @@ architecture Structure of Top_CUTECAR is
       vect_pos_external_connection_export    : in    std_logic_vector(6 downto 0)  := (others => 'X');
       niveau_external_connection_export      : out   std_logic_vector(7 downto 0)  := (others => '0');
 
-      start_sl_external_connection_export   : out   std_logic_vector(7 downto 0);                     -- export
-      base_duty_external_connection_export   : out   std_logic_vector(13 downto 0)
+      base_duty_external_connection_export   : out   std_logic_vector(13 downto 0);
+      port_s_external_connection_export      : out   std_logic_vector(2 downto 0);
+      port_e_external_connection_export      : in    std_logic_vector(1 downto 0)  := (others => 'X')
     );
   end component;
 
@@ -88,21 +89,21 @@ architecture Structure of Top_CUTECAR is
 
   component capteurs_sol_seuil is
     port (
-      clk         : in  std_logic;
-      reset_n     : in  std_logic;
-      data_capture: in  std_logic;
-      data_readyr : out std_logic;
+      clk          : in  std_logic;
+      reset_n      : in  std_logic;
+      data_capture : in  std_logic;
+      data_readyr  : out std_logic;
 
-      data0r      : out std_logic_vector(7 downto 0);
-      data1r      : out std_logic_vector(7 downto 0);
-      data2r      : out std_logic_vector(7 downto 0);
-      data3r      : out std_logic_vector(7 downto 0);
-      data4r      : out std_logic_vector(7 downto 0);
-      data5r      : out std_logic_vector(7 downto 0);
-      data6r      : out std_logic_vector(7 downto 0);
+      data0r : out std_logic_vector(7 downto 0);
+      data1r : out std_logic_vector(7 downto 0);
+      data2r : out std_logic_vector(7 downto 0);
+      data3r : out std_logic_vector(7 downto 0);
+      data4r : out std_logic_vector(7 downto 0);
+      data5r : out std_logic_vector(7 downto 0);
+      data6r : out std_logic_vector(7 downto 0);
 
-      NIVEAU      : in  std_logic_vector(7 downto 0);
-      vect_capt   : out std_logic_vector(6 downto 0);
+      NIVEAU    : in  std_logic_vector(7 downto 0);
+      vect_capt : out std_logic_vector(6 downto 0);
 
       ADC_CONVSTr : out std_logic;
       ADC_SCK     : out std_logic;
@@ -122,18 +123,42 @@ architecture Structure of Top_CUTECAR is
 
   component CTL_SL is
     generic(
-      BIAS : natural := 400
+      BIAS : natural := 190
     );
     port (
       clk       : in  std_logic;
       reset_n   : in  std_logic;
+
       start_SL  : in  std_logic;
       posi      : in  std_logic_vector(6 downto 0);
       base_duty : in  std_logic_vector(13 downto 0);
+		data_ready : in  std_logic;
       cmdL_SL   : out std_logic_vector(13 downto 0);
       cmdR_SL   : out std_logic_vector(13 downto 0);
-      fin_SL    : out std_logic;
-      fin_rot   : in  std_logic
+
+      fin_SL    : out std_logic
+    );
+  end component;
+
+  component CTL_Rot is
+    generic(
+      Rotspeed_hex : std_logic_vector(11 downto 0) := x"800";
+      POSI_STOP    : std_logic_vector(6 downto 0)  := "0001000"
+    );
+    port (
+      clk       : in  std_logic;
+      reset_n   : in  std_logic;
+
+      start_Rot : in  std_logic;
+      dir_Rot   : in  std_logic;
+
+      posi      : in  std_logic_vector(6 downto 0);
+		data_ready : in  std_logic; 
+
+      cmdL_rot  : out std_logic_vector(13 downto 0);
+      cmdR_rot  : out std_logic_vector(13 downto 0);
+
+      fin_rot   : out std_logic
     );
   end component;
 
@@ -147,7 +172,8 @@ architecture Structure of Top_CUTECAR is
   signal writedataL_s, writedataR_s : std_logic_vector(13 downto 0);
   signal niveau_s : std_logic_vector(7 downto 0);
 
-  signal start_sl_s  : std_logic_vector(7 downto 0);
+  signal port_s  : std_logic_vector(2 downto 0);
+  signal port_e  : std_logic_vector(1 downto 0);
   signal base_duty_s : std_logic_vector(13 downto 0);
 
   signal pos_data0r_s, pos_data1r_s, pos_data2r_s : std_logic_vector(7 downto 0);
@@ -159,10 +185,18 @@ architecture Structure of Top_CUTECAR is
 
   signal cmdL_sl_s, cmdR_sl_s : std_logic_vector(13 downto 0);
   signal fin_sl_s             : std_logic;
+  signal start_sl_s           : std_logic;
+
+  signal start_rot_s : std_logic;
+  signal dir_rot_s   : std_logic;
+
+  signal cmdL_rot_s, cmdR_rot_s : std_logic_vector(13 downto 0);
+  signal fin_rot_s              : std_logic;
 
   signal cmdL_pwm_s, cmdR_pwm_s : std_logic_vector(13 downto 0);
 
 begin
+
   rst_n <= KEY(0);
 
   VCC3P3_PWRON_n <= '0';
@@ -199,26 +233,59 @@ begin
       ADC_SDO     => LTC_ADC_SDO
     );
 
-  -- LEDs debug
-  LED(6 downto 0) <= vect_capt_s;
-  LED(7)          <= start_sl_s(0);
+  -- Nios -> FPGA commands
+  start_sl_s  <= port_s(0);
+  start_rot_s <= port_s(1);
+  dir_rot_s   <= port_s(2);
 
+  -- FPGA -> Nios status
+  port_e(0) <= fin_sl_s;
+  port_e(1) <= fin_rot_s;
+
+  -- Debug LEDs
+  LED(7) <= start_sl_s;
+  LED(6) <= start_rot_s;
+  LED(5) <= dir_rot_s;
+  LED(4) <= fin_sl_s;
+  LED(3) <= fin_rot_s;
+  LED(2 downto 0) <= (others => '0');
+
+  -- Line following controller
   u_ctl_sl : CTL_SL
     port map (
       clk       => CLOCK_50,
       reset_n   => rst_n,
-      start_SL  => start_sl_s(0),
+      start_SL  => start_sl_s,
       posi      => vect_capt_s,
       base_duty => base_duty_s,
+		data_ready => data_ready_s,
       cmdL_SL   => cmdL_sl_s,
       cmdR_SL   => cmdR_sl_s,
-      fin_SL    => fin_sl_s,
-      fin_rot   => '0'
+      fin_SL    => fin_sl_s
     );
 
-  -- MUX: CTL_SL drives motors when start_sl_s=1
-  cmdL_pwm_s <= cmdL_sl_s when start_sl_s(0) = '1' else writedataL_s;
-  cmdR_pwm_s <= cmdR_sl_s when start_sl_s(0) = '1' else writedataR_s;
+  -- Rotation controller (simple): rotate until center pattern detected
+  u_ctl_rot : CTL_Rot
+    port map(
+      clk       => CLOCK_50,
+      reset_n   => rst_n,
+      start_Rot => start_rot_s,
+      dir_Rot   => dir_rot_s,
+      posi      => vect_capt_s,
+		data_ready => data_ready_s,
+      cmdL_rot  => cmdL_rot_s,
+      cmdR_rot  => cmdR_rot_s,
+      fin_rot   => fin_rot_s
+    );
+
+  -- Motor command MUX: Rotation > Line follow > Direct Nios
+  cmdL_pwm_s <= cmdL_rot_s when start_rot_s = '1' else
+                cmdL_sl_s  when start_sl_s  = '1' else
+                writedataL_s;
+
+  cmdR_pwm_s <= cmdR_rot_s when start_rot_s = '1' else
+                cmdR_sl_s  when start_sl_s  = '1' else
+                writedataR_s;
 
   PWM0 : PWM_generation
     port map (
@@ -252,7 +319,8 @@ begin
 
       writedatal_external_connection_export => writedataL_s,
       writedatar_external_connection_export => writedataR_s,
-      clocks_sdram_clk_clk                  => DRAM_CLK,
+
+      clocks_sdram_clk_clk => DRAM_CLK,
 
       pos_data0r_external_connection_export => pos_data0r_s,
       pos_data1r_external_connection_export => pos_data1r_s,
@@ -262,11 +330,13 @@ begin
       pos_data5r_external_connection_export => pos_data5r_s,
       pos_data6r_external_connection_export => pos_data6r_s,
 
-      vect_pos_external_connection_export   => vect_capt_s,
-      niveau_external_connection_export     => niveau_s,
+      vect_pos_external_connection_export => vect_capt_s,
+      niveau_external_connection_export   => niveau_s,
 
-      start_sl_external_connection_export   => start_sl_s,
-      base_duty_external_connection_export  => base_duty_s
+      port_s_external_connection_export     => port_s,
+      base_duty_external_connection_export  => base_duty_s,
+
+      port_e_external_connection_export     => port_e
     );
 
 end architecture;

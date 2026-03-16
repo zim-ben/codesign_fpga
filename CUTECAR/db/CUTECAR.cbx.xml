@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <LOG_ROOT>
 	<PROJECT NAME="CUTECAR">
-		<CBX_INST_ENTRY INSTANCE_NAME="|Top_CUTECAR|CTL_SL:u_ctl_sl|lpm_mult:Mult0|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]" CBX_FILE_NAME="add_sub_ekh.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|Top_CUTECAR|CTL_SL:u_ctl_sl|lpm_mult:Mult0|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]" CBX_FILE_NAME="add_sub_dkh.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|Top_CUTECAR|Nios_CUTECAR:NiosII|Nios_CUTECAR_clocks:clocks|altpll:DE_Clock_Generator_System" CBX_FILE_NAME="altpll_6rb2.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|Top_CUTECAR|Nios_CUTECAR:NiosII|Nios_CUTECAR_jtag_uart:jtag_uart|Nios_CUTECAR_jtag_uart_scfifo_w:the_Nios_CUTECAR_jtag_uart_scfifo_w|scfifo:wfifo" CBX_FILE_NAME="scfifo_jr21.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|Top_CUTECAR|Nios_CUTECAR:NiosII|Nios_CUTECAR_nios2_qsys_0:nios2_qsys_0|Nios_CUTECAR_nios2_qsys_0_register_bank_a_module:Nios_CUTECAR_nios2_qsys_0_register_bank_a|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_1hh1.tdf"/>
