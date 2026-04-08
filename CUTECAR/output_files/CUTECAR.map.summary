@@ -1,13 +1,13 @@
-Analysis & Synthesis Status : Successful - Mon Mar 16 12:50:10 2026
+Analysis & Synthesis Status : Successful - Wed Apr 08 16:26:55 2026
 Quartus II 32-bit Version : 13.0.1 Build 232 06/12/2013 SP 1 SJ Full Version
 Revision Name : CUTECAR
 Top-level Entity Name : Top_CUTECAR
 Family : Cyclone IV E
-Total logic elements : 3,610
-    Total combinational functions : 2,944
-    Dedicated logic registers : 2,055
-Total registers : 2055
-Total pins : 66
+Total logic elements : 3,277
+    Total combinational functions : 2,653
+    Dedicated logic registers : 1,899
+Total registers : 1899
+Total pins : 62
 Total virtual pins : 0
 Total memory bits : 44,032
 Embedded Multiplier 9-bit elements : 0
